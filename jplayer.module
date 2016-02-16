@@ -278,19 +278,19 @@ function jplayer_field_formatter_settings_summary($field, $instance, $view_mode)
   $settings = $display['settings'];
 
   $summary = '';
-
   if ($display['type'] == 'jplayer_player') {
+    $summary = t('Single jPlayer instance');
     if ($settings['mode'] == 'playlist') {
-      $summary = t('jPlayer Playlist.');
+      $summary = t('jPlayer Playlist');
+      if (isset($settings['continuous']) && $settings['continuous'] == 1) {
+        $summary .= t('(continuous)');
+      }
     }
-    elseif (isset($settings['autoplay']) && $settings['autoplay'] == 1) {
-      $summary = t('Single jPlayer instance which autoplays.');
+    if (isset($settings['autoplay']) && $settings['autoplay'] == 1) {
+      $summary .= t('(autoplays)');
     }
-    else {
-      $summary = t('Single jPlayer instance.');
-    }
+    $summary .= '.';
   }
-
   return $summary;
 }
 
@@ -342,7 +342,7 @@ function _jplayer_js_attach() {
   $added = &drupal_static(__FUNCTION__, FALSE);
   if ($added) {
     // JS is already loaded.
-    return TRUE;
+    return array();
   }
 
   // Add global settings.
