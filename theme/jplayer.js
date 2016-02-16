@@ -37,7 +37,7 @@
           // Initialise single player
           $(player).jPlayer({
             ready: function() {
-              $(this).jPlayer("setMedia", playerSettings.files);
+              Drupal.jPlayer.setFiles(wrapper, player, 0, playerSettings.autoplay);
               
               // Make sure we pause other players on play
               $(player).bind($.jPlayer.event.play, function() {
