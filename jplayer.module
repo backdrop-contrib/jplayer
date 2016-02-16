@@ -474,7 +474,7 @@ function _jplayer_get_js() {
 function _jplayer_get_swf() {
   $path = libraries_get_path('jplayer');
   $file = '/jquery.jplayer.swf';
-  $full = $path . $file;
+  $full = '/' . $path . $file;
   if (!file_exists($full)) {
     $path .= '/dist/jplayer';
     $dist = $path . $file;
