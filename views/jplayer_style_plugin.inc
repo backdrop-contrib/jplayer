@@ -128,7 +128,7 @@ class jplayer_style_plugin extends views_plugin_style {
 
     // If doing a live preview, add the JavaScript directly to the output.
     if (isset($view->live_preview) && $view->live_preview) {
-      $js = drupal_add_js(JS_DEFAULT);
+      $js = backdrop_add_js(JS_DEFAULT);
       $settings = array();
       foreach ($js['settings'] as $js_settings) {
         if (isset($js_settings['jPlayer'])) {
@@ -139,7 +139,7 @@ class jplayer_style_plugin extends views_plugin_style {
 
       $output .= "<script type=\"text/javascript\">\n";
       $output .= "Drupal.settings.jPlayer = Drupal.settings.jPlayer || {};\n";
-      $output .= "jQuery.extend(Drupal.settings.jPlayer, " . drupal_json_encode($settings) . ");\n";
+      $output .= "jQuery.extend(Drupal.settings.jPlayer, " . backdrop_json_encode($settings) . ");\n";
       $output .= "</script>\n";
     }
 

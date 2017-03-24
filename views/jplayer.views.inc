@@ -8,7 +8,7 @@
  * Implements hook_views_plugins().
  */
 function jplayer_views_plugins() {
-  $path = drupal_get_path('module', 'jplayer');
+  $path = backdrop_get_path('module', 'jplayer');
 
   return array(
     'style' => array(

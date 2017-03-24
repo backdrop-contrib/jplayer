@@ -40,7 +40,7 @@ function template_preprocess_jplayer(&$vars) {
       ),
     ),
   );
-  drupal_add_js($player, 'setting');
+  backdrop_add_js($player, 'setting');
 
   $vars['dynamic'] = _jplayer_js_attach();
 }
@@ -66,7 +66,7 @@ function theme_jplayer_item_list($variables) {
   }
 
   if (!empty($items)) {
-    $output .= "<$type" . drupal_attributes($attributes) . '>';
+    $output .= "<$type" . backdrop_attributes($attributes) . '>';
     $num_items = count($items);
     $data = '';
     foreach ($items as $i => $item) {
@@ -104,7 +104,7 @@ function theme_jplayer_item_list($variables) {
         $attributes['class'][] = 'last jp-playlist-last';
       }
       $attributes['oncontextmenu'] = "return false;";
-      $output .= '<li' . drupal_attributes($attributes) . '>' . $data . "</li>\n";
+      $output .= '<li' . backdrop_attributes($attributes) . '>' . $data . "</li>\n";
     }
     $output .= "</$type>";
   }
@@ -301,7 +301,7 @@ function template_preprocess_jplayer_view_playlist(&$vars) {
       ),
     ),
   );
-  drupal_add_js($player, 'setting');
+  backdrop_add_js($player, 'setting');
 
   $vars['dynamic'] = _jplayer_js_attach();
 }

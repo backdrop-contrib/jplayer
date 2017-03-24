@@ -26,7 +26,7 @@ function jplayer_menu() {
 
   $items['admin/config/media/jplayer'] = array(
     'title' => 'jPlayer',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('jplayer_settings_form'),
     'access arguments' => array('administer site configuration'),
     'description' => 'Configure the settings for the jPlayer module.',
@@ -77,7 +77,7 @@ function jplayer_theme() {
  */
 function jplayer_views_api() {
   return array(
-    'path' => drupal_get_path('module', 'jplayer') . '/views',
+    'path' => backdrop_get_path('module', 'jplayer') . '/views',
     'api' => 3.0,
   );
 }
@@ -351,7 +351,7 @@ function jplayer_get_version($file = '') {
  *   Form API attach.
  */
 function _jplayer_js_attach() {
-  $added = &drupal_static(__FUNCTION__, FALSE);
+  $added = &backdrop_static(__FUNCTION__, FALSE);
   if ($added) {
     // JS is already loaded.
     return array();
@@ -373,9 +373,9 @@ function _jplayer_js_attach() {
       'sepSec'    => $config->get('jplayer_sepSec'),
     ),
   );
-  drupal_add_js($settings, array('type' => 'setting'));
+  backdrop_add_js($settings, array('type' => 'setting'));
 
-  $path = drupal_get_path('module', 'jplayer');
+  $path = backdrop_get_path('module', 'jplayer');
   $return = array(
     '#attached' => array(
       // Base library.
@@ -426,11 +426,11 @@ function _jplayer_get_css() {
   // Right now only the default skin (module) is avaialble.
   $skin = NULL;
   if (!$skin) {
-    $path = drupal_get_path('module', 'jplayer');
+    $path = backdrop_get_path('module', 'jplayer');
     return array($path . '/css/jplayer.css' => $opts);
   }
   else {
-    $skinlib = drupal_get_path('module', 'jplayer') . '/libraries/skin/' . $skin;
+    $skinlib = backdrop_get_path('module', 'jplayer') . '/libraries/skin/' . $skin;
     $file = $skinlib . '/' . $skin . '.css';
     if (file_exists($file)) {
       $return = array($file => $opts);
@@ -454,7 +454,7 @@ function _jplayer_get_css() {
  */
 function _jplayer_get_js() {
   // @todo, add a debug setting here for non-minified version?
-  return drupal_get_path('module', 'jplayer') . '/libraries/jplayer/jquery.jplayer.min.js';
+  return backdrop_get_path('module', 'jplayer') . '/libraries/jplayer/jquery.jplayer.min.js';
 }
 
 /**
@@ -464,7 +464,7 @@ function _jplayer_get_js() {
  *   SWF file path.
  */
 function _jplayer_get_swf() {
-  $path = drupal_get_path('module', 'jplayer') . '/libraries/jplayer';
+  $path = backdrop_get_path('module', 'jplayer') . '/libraries/jplayer';
   $file = '/jquery.jplayer.swf';
   $full = '/' . $path . $file;
   if (!file_exists($full)) {

@@ -49,4 +49,4 @@
     </div>
   </div>
 </div>
-<?php print drupal_render($dynamic);?>
+<?php print backdrop_render($dynamic);?>
