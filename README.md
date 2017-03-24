@@ -1,17 +1,5 @@
-CONTENTS OF THIS FILE
----------------------
-
- * Introduction
- * Installation
- * Player kinds
- * Upgrading
- * Known issues
- * Support
- * Sponsorship
-
-
-INTRODUCTION
-------------
+JPlayer
+=======
 
 The jPlayer module provides a wrapper around the jPlayer JavaScript library.
 This library provides an HTML5-based player, that uses a Flash fallback for
@@ -24,53 +12,89 @@ ogv, webma, webmv, wav. (Also jpeg, jpg and png for poster artwork.) Please be
 sure to restrict the file upload extensions on your file fields to only allow
 these extensions, or less depending on your requirements.
 
+This player will only work with files supported by the jPlayer library.
 
-INSTALLATION
+Installation
 ------------
 
- 1. Drop the 'jplayer' folder into the modules directory '/sites/all/modules/'.
+- Install this module using the official Backdrop CMS instructions at
+  https://backdropcms.org/guide/modules
 
- 2. Download jPlayer from http://www.jplayer.org/download/.
+- Visit the configuration page under Administration > Configuration > JPlayer
+  (admin/config/media/jplayer) and enter the required information.
 
- 3. Expand the zip or tar.gz file and then copy the dist/jplayer folder to 'sites/all/libraries/jplayer/'.
+- When you manage the display of file fields within your content types
+  (admin/structure/types/manage/{type}/display) choose 'jPlayer - Player'
+  as the format. You can then configure the settings available for that
+  instance.
 
- 4. In your Drupal site, enable the module under Administration -> Modules.
+Documentation
+-------------
 
- 5. Global admin settings for jPlayer can be found Administration ->
-    Configuration -> jPlayer 'admin/config/media/jplayer'.
+Additional documentation is located in the Wiki:
+https://github.com/backdrop-contrib/jplayer/wiki/Documentation
 
- 6. When you manage the display of file fields within your content types
-    'admin/structure/types/manage/{type}/display', choose 'jPlayer - Player'
-    as the format. You can then configure the settings available for that
-    instance.
+Issues
+------
+
+Bugs and Feature requests should be reported in the Issue Queue:
+https://github.com/backdrop-contrib/jplayer/issues
+
+Current Maintainers
+-------------------
+
+- Jen Lampton (https://github.com/jenlampton)
+- seeking additional maintainers
+
+Credits
+-------
+
+- Ported to Backdrop CMS by [Jen Lampton](https://github.com/jenlampton).
+- Maintained for Drupal by [Mark Casias](https://www.drupal.org/u/markie)
+- Originally written for Drupal by [Lullabot](http://www.lullabot.com/).
+- Includes the [JPlayer JavaScript Library](http://www.jplayer.org/).
+
+License
+-------
+
+This project is GPL v2 software. See the LICENSE.txt file in this directory for
+complete text.
+
+
+
+
+
+
+
+
 
 
 PLAYER KINDS
 ------------
 
-When configuring your formatter you will be given the option of two 'kinds' of 
+When configuring your formatter you will be given the option of two 'kinds' of
 jPlayer. Below is the difference between them:
 
  1. Single
-    
+
     Intelligent single instance player which can take multiple formats of the
     same kind e.g. ogv and m4v and display the correct one depending on your
     browser. Also takes image files for poster frames. Works with both audio
     and video.
-    
+
     For use on a multi-value file field, or single value if you only want to
     support one kind of media.
-    
+
     If you happen to upload a video file type then the jPlayer player will
     automatically convert itself into a video player.
 
  2. Playlist
-    
+
     For use on a multi-value file field. Each file uploaded will be added to a
     playlist. Which users will be able to navigation between. If you upload a
     video file then the player will convert to a video player automatically. If
     audio files are also present then a blank video frame will be displayed.
-    
+
     You can also select your repeat option. If set to 'All' then the player will
     play all files within the playlist one after the other, once it reaches the
     end it will start again at the beginning. If set to 'Single' then it will
@@ -125,26 +149,7 @@ To override the Javascript file:
    For more information, see http://drupal.org/node/171213.
 
 
-UPGRADING
----------
 
-Since the jPlayer module is purely a formatter most of the upgrade work required
-will be in upgrading from old CCK File Fields into new core File Fields in
-Drupal 7. Apart from that you will need to re-select your formatters after
-upgrading to this new version.
-
-
-SUPPORT
--------
-
-Many issues you may have may be caused by jPlayer library itself, rather than
-the Drupal module. Check with the jPlayer support pages for issues with Flash
-warnings or the player behaving oddly:
-
-http://www.jplayer.org/support/
-
-If the problem is with the jPlayer Drupal module, please file a support request
-at http://drupal.org/project/issues/jplayer.
 
 FAQ
 ___
