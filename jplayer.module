@@ -8,6 +8,17 @@
  */
 
 /**
+ * Implements hook_config_info().
+ */
+function jplayer_config_info() {
+  $prefixes['jplayer.settings'] = array(
+    'label' => t('JPlayer settings'),
+    'group' => t('Configuration'),
+  );
+  return $prefixes;
+}
+
+/**
  * Implements hook_menu().
  */
 function jplayer_menu() {
@@ -19,7 +30,7 @@ function jplayer_menu() {
     'page arguments' => array('jplayer_settings_form'),
     'access arguments' => array('administer site configuration'),
     'description' => 'Configure the settings for the jPlayer module.',
-    'file' => 'includes/jplayer.admin.inc',
+    'file' => 'jplayer.admin.inc',
   );
 
   return $items;
@@ -31,7 +42,7 @@ function jplayer_menu() {
 function jplayer_theme() {
   return array(
     'jplayer' => array(
-      'template' => 'theme/jplayer',
+      'template' => 'templates/jplayer',
       'variables' => array(
         'entity_type' => NULL,
         'entity' => NULL,
@@ -41,11 +52,11 @@ function jplayer_theme() {
         'type' => '',
         'playlist' => '',
       ),
-      'file' => 'includes/jplayer.theme.inc',
+      'file' => 'jplayer.theme.inc',
     ),
     'jplayer_item_list' => array(
       'render element' => 'element',
-      'file' => 'includes/jplayer.theme.inc',
+      'file' => 'jplayer.theme.inc',
       'variables' => array(
         'items' => array(),
         'title' => NULL,
@@ -54,9 +65,9 @@ function jplayer_theme() {
       ),
     ),
     'jplayer_view_playlist' => array(
-      'template' => 'theme/jplayer',
+      'template' => 'templates/jplayer',
       'arguments' => array('view' => NULL, 'items' => NULL),
-      'file' => 'includes/jplayer.theme.inc',
+      'file' => 'jplayer.theme.inc',
     ),
   );
 }
@@ -66,7 +77,7 @@ function jplayer_theme() {
  */
 function jplayer_views_api() {
   return array(
-    'path' => drupal_get_path('module', 'jplayer') . '/includes',
+    'path' => drupal_get_path('module', 'jplayer') . '/views',
     'api' => 3.0,
   );
 }
@@ -74,7 +85,7 @@ function jplayer_views_api() {
 /**
  * Implements hook_library().
  */
-function jplayer_library() {
+function jplayer_library_info() {
   $file = _jplayer_get_js();
   $version = jplayer_get_version($file);
 
@@ -87,6 +98,7 @@ function jplayer_library() {
       $file => array(),
     ),
   );
+
   return $libraries;
 }
 
@@ -346,18 +358,19 @@ function _jplayer_js_attach() {
   }
 
   // Add global settings.
+  $config = config('jplayer.settings');
   $settings = array(
     'jPlayer' => array(
       'swfPath'   => _jplayer_get_swf(),
-      'showHour'  => (boolean) variable_get('jplayer_showHour', FALSE),
-      'showMin'   => (boolean) variable_get('jplayer_showMin', TRUE),
-      'showSec'   => (boolean) variable_get('jplayer_showSec', TRUE),
-      'padHour'   => (boolean) variable_get('jplayer_padHour', FALSE),
-      'padMin'    => (boolean) variable_get('jplayer_padMin', TRUE),
-      'padSec'    => (boolean) variable_get('jplayer_padSec', TRUE),
-      'sepHour'   => variable_get('jplayer_sepHour', ':'),
-      'sepMin'    => variable_get('jplayer_sepMin', ':'),
-      'sepSec'    => variable_get('jplayer_sepSec', ''),
+      'showHour'  => $config->get('jplayer_showHour'),
+      'showMin'   => $config->get('jplayer_showMin'),
+      'showSec'   => $config->get('jplayer_showSec'),
+      'padHour'   => $config->get('jplayer_padHour'),
+      'padMin'    => $config->get('jplayer_padMin'),
+      'padSec'    => $config->get('jplayer_padSec'),
+      'sepHour'   => $config->get('jplayer_sepHour'),
+      'sepMin'    => $config->get('jplayer_sepMin'),
+      'sepSec'    => $config->get('jplayer_sepSec'),
     ),
   );
   drupal_add_js($settings, array('type' => 'setting'));
@@ -371,7 +384,7 @@ function _jplayer_js_attach() {
       ),
       // Drupal specific JS.
       'js' => array(
-        $path . '/theme/jplayer.js' => array(
+        $path . '/js/jplayer.js' => array(
           'type'  => 'file',
           'scope' => 'footer',
           'group' => JS_DEFAULT,
@@ -414,22 +427,22 @@ function _jplayer_get_css() {
   $skin = NULL;
   if (!$skin) {
     $path = drupal_get_path('module', 'jplayer');
-    return array($path . '/theme/jplayer.css' => $opts);
+    return array($path . '/css/jplayer.css' => $opts);
   }
   else {
-    $lib = libraries_get_path('jplayer') . '/skin/' . $skin;
-    $file = $lib . '/' . $skin . '.css';
+    $skinlib = drupal_get_path('module', 'jplayer') . '/libraries/skin/' . $skin;
+    $file = $skinlib . '/' . $skin . '.css';
     if (file_exists($file)) {
       $return = array($file => $opts);
     }
     else {
-      $skin = 'jplayer.' . $skin;
-      $file = $lib . '/' . $skin . '.css';
+      $file = $skinlib . '/jplayer.' . $skin . '.css';
       if (file_exists($file)) {
         $return = array($file => $opts);
       }
     }
   }
+
   return $return;
 }
 
@@ -440,29 +453,8 @@ function _jplayer_get_css() {
  *   Full file path or FALSE on failure.
  */
 function _jplayer_get_js() {
-  $path = libraries_get_path('jplayer');
-  $player_files = array(
-    'min'   => '/jquery.jplayer.min.js',
-    'full'  => '/jquery.jplayer.js',
-  );
-
-  // Check main library directory.
-  foreach ($player_files as $type => $file) {
-    $return = $path . $file;
-    if (file_exists($return)) {
-      return $return;
-    }
-  }
-
-  // If they just unzipped the dl, the file is in the dist/jplayer folder.
-  $path .= '/dist/jplayer';
-  foreach ($player_files as $file) {
-    $return = $path . $file;
-    if (file_exists($return)) {
-      return $return;
-    }
-  }
-  return FALSE;
+  // @todo, add a debug setting here for non-minified version?
+  return drupal_get_path('module', 'jplayer') . '/libraries/jplayer/jquery.jplayer.min.js';
 }
 
 /**
@@ -472,7 +464,7 @@ function _jplayer_get_js() {
  *   SWF file path.
  */
 function _jplayer_get_swf() {
-  $path = libraries_get_path('jplayer');
+  $path = drupal_get_path('module', 'jplayer') . '/libraries/jplayer';
   $file = '/jquery.jplayer.swf';
   $full = '/' . $path . $file;
   if (!file_exists($full)) {

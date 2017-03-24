@@ -43,7 +43,6 @@ function template_preprocess_jplayer(&$vars) {
   drupal_add_js($player, 'setting');
 
   $vars['dynamic'] = _jplayer_js_attach();
-
 }
 
 /**

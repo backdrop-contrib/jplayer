@@ -23,21 +23,21 @@
         <li><a href="#" class="jp-next" tabindex="1">next</a></li>
         <?php endif; ?>
       </ul>
-      
+
       <div class="jp-progress">
         <div class="jp-seek-bar">
           <div class="jp-play-bar"></div>
         </div>
       </div>
-      
+
       <div class="jp-volume-bar">
         <div class="jp-volume-bar-value"></div>
       </div>
-      
+
       <div class="jp-current-time"></div>
       <div class="jp-duration"></div>
     </div>
-    
+
     <div id="<?php print $player_id; ?>_playlist" class="jp-playlist">
       <?php if ($mode == 'playlist' || $mode == 'single'): ?>
         <?php print $playlist; ?>

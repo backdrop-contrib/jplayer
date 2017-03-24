@@ -8,41 +8,6 @@
  * Implements hook_schema().
  */
 function jplayer_schema() {
-}
-
-/**
- * Implements hook_requirements().
- */
-function jplayer_requirements($phase) {
-  $requirements = array();
-
-  if ($phase == 'runtime') {
-    $requirements['jplayer']['title'] = t('jPlayer');
-    if ($jplayer_version = jplayer_get_version()) {
-      $requirements['jplayer']['value'] = $jplayer_version;
-      $requirements['jplayer']['severity'] = REQUIREMENT_OK;
-    }
-    else {
-      $requirements['jplayer']['value'] = t('Not found');
-      $requirements['jplayer']['description'] = t('Missing the jPlayer library. Please !download and extract it into the %directory directory.', array('!download' => l('download jPlayer library', 'http://www.jplayer.org/download/'), '%directory' => variable_get('jplayer_directory', '/sites/all/libraries/jplayer')));
-      $requirements['jplayer']['severity'] = REQUIREMENT_ERROR;
-    }
-  }
-  return $requirements;
-}
-
-/**
- * Implements hook_uninstall().
- */
-function jplayer_uninstall() {
-  variable_del('jplayer_access_time');
-}
-
-/**
- * Add a table to track when direct file downloads are denied.
- */
-function jplayer_update_7001() {
-  $schema = array();
   $schema['jplayer_denied'] = array(
     'description' => 'Contains user statistics for when a user is blocked from downloading a file.',
     'fields' => array(
@@ -81,30 +46,43 @@ function jplayer_update_7001() {
     ),
   );
 
-  // If the site is being upgraded from a 6.x release, this table might exist.
-  if (!db_table_exists('jplayer_denied')) {
-    db_create_table('jplayer_denied', $schema['jplayer_denied']);
-  }
+  return $schema;
 }
 
 /**
- * Transition to the jplayer_protect module if jplayer content protection is
- * enabled. */
-function jplayer_update_7002() {
-  if (variable_get('jplayer_protected', FALSE)) {
-    variable_set('jplayer_protect', TRUE);
-    if (!module_exists('jplayer_protect')) {
-      module_enable(array('jplayer_protect'));
-      db_drop_table('jplayer_protect_denied');
-      db_rename_table('jplayer_denied', 'jplayer_protect_denied');
-    }
-    else {
-      return t('It appears that the jplayer_protect module has been manually enabled. Please move any data from the {jplayer_protect} table to the {jplayer_protect_denied} table and drop the {jplayer_protect} table.');
-    }
-  }
-  else {
-    db_drop_table('jplayer_denied');
-  }
-  variable_del('jplayer_protected');
+ * Implements hook_update_last_removed().
+ */
+function jplayer_update_last_removed() {
+  return 7002;
+}
+
+/**
+ * Convert from variables to config.
+ */
+function jplayer_update_1001() {
+  $config = config('jplayer.settings');
+  $config->set('access_time', update_variable_get('jplayer_access_time'));
+  $config->set('showHour', update_variable_get('jplayer_showHour'));
+  $config->set('padHour', update_variable_get('jplayer_padHour'));
+  $config->set('sepHour', update_variable_get('jplayer_sepHour'));
+  $config->set('showMin', update_variable_get('jplayer_showMin'));
+  $config->set('padMin', update_variable_get('jplayer_padMin'));
+  $config->set('sepMin', update_variable_get('jplayer_sepMin'));
+  $config->set('showSec', update_variable_get('jplayer_showSec'));
+  $config->set('padSec', update_variable_get('jplayer_padSec'));
+  $config->set('sepSec', update_variable_get('jplayer_sepSec'));
+  $config->save();
+
+  // Delete all old variables.
+  update_variable_del('jplayer_access_time');
+  update_variable_del('jplayer_showHour');
+  update_variable_del('jplayer_padHour');
+  update_variable_del('jplayer_sepHour');
+  update_variable_del('jplayer_showMin');
+  update_variable_del('jplayer_padMin');
+  update_variable_del('jplayer_sepMin');
+  update_variable_del('jplayer_showSec');
+  update_variable_del('jplayer_padSec');
+  update_variable_del('jplayer_sepSec');
 }
 

@@ -1,0 +1,12 @@
+{
+    "_config_name": "jplayer.settings",
+    "showHour": "1",
+    "padHour": "0",
+    "sepHour": ":",
+    "showMin": "1",
+    "padMin": "1",
+    "sepMin": ":",
+    "showSec": "1",
+    "padSec": "1",
+    "sepSec": ""
+}
