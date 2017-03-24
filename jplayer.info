@@ -8,5 +8,3 @@ dependencies[] = file
 
 configure = admin/config/media/jplayer
 
-files[] = views/jplayer_style_plugin.inc
-

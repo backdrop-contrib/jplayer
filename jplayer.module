@@ -19,6 +19,16 @@ function jplayer_config_info() {
 }
 
 /**
+ * Implements hook_autoload_info().
+ */
+function jplayer_autoload_info() {
+  return array(
+    'jplayer_style_plugin' => 'views/jplayer_style_plugin.inc',
+  );
+}
+
+
+/**
  * Implements hook_menu().
  */
 function jplayer_menu() {
