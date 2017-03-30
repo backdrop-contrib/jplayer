@@ -40,7 +40,7 @@ function template_preprocess_jplayer(&$variables) {
       ),
     ),
   );
-  backdrop_add_js($player, 'setting');
+  backdrop_add_js($player, array('type' => 'setting'));
 
   $variables['dynamic'] = _jplayer_js_attach();
 }
