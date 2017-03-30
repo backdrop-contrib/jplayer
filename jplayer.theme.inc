@@ -7,42 +7,42 @@
 /**
  * Preprocess function for a player.
  *
- * @param array $vars
+ * @param array $variables
  *   Preprocess variables.
  */
-function template_preprocess_jplayer(&$vars) {
+function template_preprocess_jplayer(&$variables) {
   // Determine a unique player ID.
-  $ids = entity_extract_ids($vars['entity_type'], $vars['entity']);
-  $vars['player_id'] = _jplayer_check_id('jplayer-' . $vars['entity_type'] . '-' . $ids[0] . '-' . str_replace('_', '-', $vars['field_name']));
+  $ids = entity_extract_ids($variables['entity_type'], $variables['entity']);
+  $variables['player_id'] = _jplayer_check_id('jplayer-' . $variables['entity_type'] . '-' . $ids[0] . '-' . str_replace('_', '-', $variables['field_name']));
 
-  $vars['mode'] = $vars['settings']['mode'];
+  $variables['mode'] = $variables['settings']['mode'];
 
   // Get the field info so we can figure out what type it is.
-  $field_info = field_info_field($vars['field_name']);
-  $player = jplayer_sort_files($vars['items'], $vars['player_id'], $vars['mode'], $field_info['type']);
-  $vars['playlist'] = theme('jplayer_item_list', array('items' => $player['playlist']));
-  $vars['type'] = $player['type'];
+  $field_info = field_info_field($variables['field_name']);
+  $player = jplayer_sort_files($variables['items'], $variables['player_id'], $variables['mode'], $field_info['type']);
+  $variables['playlist'] = theme('jplayer_item_list', array('items' => $player['playlist']));
+  $variables['type'] = $player['type'];
 
   // Add player settings.
   $player = array(
     'jplayerInstances' => array(
-      $vars['player_id'] => array(
+      $variables['player_id'] => array(
         'files' => $player['files'],
-        'solution' => $vars['settings']['solution'],
+        'solution' => $variables['settings']['solution'],
         'supplied' => $player['extensions'],
-        'preload' => $vars['settings']['preload'],
-        'volume' => $vars['settings']['volume'] / 100,
-        'muted' => (boolean) $vars['settings']['muted'],
-        'autoplay' => (boolean) $vars['settings']['autoplay'],
-        'repeat' => $vars['settings']['repeat'],
-        'backgroundColor' => $vars['settings']['backgroundColor'],
-        'continuous' => $vars['settings']['continuous'],
+        'preload' => $variables['settings']['preload'],
+        'volume' => $variables['settings']['volume'] / 100,
+        'muted' => (boolean) $variables['settings']['muted'],
+        'autoplay' => (boolean) $variables['settings']['autoplay'],
+        'repeat' => $variables['settings']['repeat'],
+        'backgroundColor' => $variables['settings']['backgroundColor'],
+        'continuous' => $variables['settings']['continuous'],
       ),
     ),
   );
   backdrop_add_js($player, 'setting');
 
-  $vars['dynamic'] = _jplayer_js_attach();
+  $variables['dynamic'] = _jplayer_js_attach();
 }
 
 /**
@@ -270,40 +270,40 @@ function jplayer_sort_files($raw_files = array(), $player_id = 0, $type = 'singl
 /**
  * Preprocess function for jplayer.tpl.php when displaying a view as a playlist.
  *
- * @param array $vars
+ * @param array $variables
  *   Variable array.
  */
-function template_preprocess_jplayer_view_playlist(&$vars) {
-  $view = $vars['view'];
-  $vars['settings'] = $view->style_plugin->options;
-  $vars['mode'] = 'playlist';
-  $vars['player_id'] = _jplayer_check_id('jplayer-view-' . str_replace('_', '-', check_plain($view->name)));
+function template_preprocess_jplayer_view_playlist(&$variables) {
+  $view = $variables['view'];
+  $variables['settings'] = $view->style_plugin->options;
+  $variables['mode'] = 'playlist';
+  $variables['player_id'] = _jplayer_check_id('jplayer-view-' . str_replace('_', '-', check_plain($view->name)));
 
-  $player = jplayer_sort_files($vars['items'], $vars['player_id'], $vars['mode']);
+  $player = jplayer_sort_files($variables['items'], $variables['player_id'], $variables['mode']);
 
-  $vars['playlist'] = theme('jplayer_item_list', array('items' => $player['playlist']));
-  $vars['type'] = $player['type'];
+  $variables['playlist'] = theme('jplayer_item_list', array('items' => $player['playlist']));
+  $variables['type'] = $player['type'];
 
   // Add player settings.
   $player = array(
     'jplayerInstances' => array(
-      $vars['player_id'] => array(
+      $variables['player_id'] => array(
         'files' => $player['files'],
-        'solution' => $vars['settings']['solution'],
+        'solution' => $variables['settings']['solution'],
         'supplied' => $player['extensions'],
-        'preload' => $vars['settings']['preload'],
-        'volume' => $vars['settings']['volume'] / 100,
-        'muted' => (boolean) $vars['settings']['muted'],
-        'autoplay' => (boolean) $vars['settings']['autoplay'],
-        'repeat' => $vars['settings']['repeat'],
-        'backgroundColor' => $vars['settings']['backgroundColor'],
-        'continuous' => $vars['settings']['continuous'],
+        'preload' => $variables['settings']['preload'],
+        'volume' => $variables['settings']['volume'] / 100,
+        'muted' => (boolean) $variables['settings']['muted'],
+        'autoplay' => (boolean) $variables['settings']['autoplay'],
+        'repeat' => $variables['settings']['repeat'],
+        'backgroundColor' => $variables['settings']['backgroundColor'],
+        'continuous' => $variables['settings']['continuous'],
       ),
     ),
   );
   backdrop_add_js($player, 'setting');
 
-  $vars['dynamic'] = _jplayer_js_attach();
+  $variables['dynamic'] = _jplayer_js_attach();
 }
 
 /**
