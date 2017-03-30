@@ -97,13 +97,12 @@ function jplayer_views_api() {
  */
 function jplayer_library_info() {
   $file = _jplayer_get_js();
-  $version = jplayer_get_version($file);
 
   $libraries = array();
   $libraries['jplayer'] = array(
     'title' => 'jPlayer',
     'website' => 'http://www.jplayer.org',
-    'version' => $version,
+    'version' => jplayer_get_version($file),
     'js' => array(
       $file => array(),
     ),
@@ -372,15 +371,15 @@ function _jplayer_js_attach() {
   $settings = array(
     'jPlayer' => array(
       'swfPath'   => _jplayer_get_swf(),
-      'showHour'  => $config->get('jplayer_showHour'),
-      'showMin'   => $config->get('jplayer_showMin'),
-      'showSec'   => $config->get('jplayer_showSec'),
-      'padHour'   => $config->get('jplayer_padHour'),
-      'padMin'    => $config->get('jplayer_padMin'),
-      'padSec'    => $config->get('jplayer_padSec'),
-      'sepHour'   => $config->get('jplayer_sepHour'),
-      'sepMin'    => $config->get('jplayer_sepMin'),
-      'sepSec'    => $config->get('jplayer_sepSec'),
+      'showHour'  => $config->get('showHour'),
+      'showMin'   => $config->get('showMin'),
+      'showSec'   => $config->get('showSec'),
+      'padHour'   => $config->get('padHour'),
+      'padMin'    => $config->get('padMin'),
+      'padSec'    => $config->get('padSec'),
+      'sepHour'   => $config->get('sepHour'),
+      'sepMin'    => $config->get('sepMin'),
+      'sepSec'    => $config->get('sepSec'),
     ),
   );
   backdrop_add_js($settings, array('type' => 'setting'));

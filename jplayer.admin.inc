@@ -22,7 +22,7 @@ function jplayer_settings_form($form, &$form_state) {
     '#collapsible' => TRUE,
   );
 
-  $form['timeformat']['hours']['jplayer_showHour'] = array(
+  $form['timeformat']['hours']['showHour'] = array(
     '#title' => t('Display hours'),
     '#type' => 'select',
     '#options' => array(
@@ -32,7 +32,7 @@ function jplayer_settings_form($form, &$form_state) {
     '#default_value' => $config->get('showHour'),
   );
 
-  $form['timeformat']['hours']['jplayer_padHour'] = array(
+  $form['timeformat']['hours']['padHour'] = array(
     '#title' => t('Zero-pad the hours'),
     '#type' => 'select',
     '#options' => array(
@@ -42,19 +42,19 @@ function jplayer_settings_form($form, &$form_state) {
     '#default_value' => $config->get('padHour'),
     '#states' => array(
       'visible' => array(
-        ':input[name="jplayer_showHour"]' => array('value' => 1),
+        ':input[name="showHour"]' => array('value' => 1),
       ),
     ),
   );
 
-  $form['timeformat']['hours']['jplayer_sepHour'] = array(
+  $form['timeformat']['hours']['sepHour'] = array(
     '#title' => t('Hours seperator'),
     '#type' => 'textfield',
     '#maxlength' => 32,
     '#default_value' => $config->get('sepHour'),
     '#states' => array(
       'visible' => array(
-        ':input[name="jplayer_showHour"]' => array('value' => 1),
+        ':input[name="showHour"]' => array('value' => 1),
       ),
     ),
   );
@@ -65,7 +65,7 @@ function jplayer_settings_form($form, &$form_state) {
     '#collapsible' => TRUE,
   );
 
-  $form['timeformat']['mins']['jplayer_showMin'] = array(
+  $form['timeformat']['mins']['showMin'] = array(
     '#title' => t('Display minutes'),
     '#type' => 'select',
     '#options' => array(
@@ -75,7 +75,7 @@ function jplayer_settings_form($form, &$form_state) {
     '#default_value' => $config->get('showMin'),
   );
 
-  $form['timeformat']['mins']['jplayer_padMin'] = array(
+  $form['timeformat']['mins']['padMin'] = array(
     '#title' => t('Zero-pad the minutes'),
     '#type' => 'select',
     '#options' => array(
@@ -85,19 +85,19 @@ function jplayer_settings_form($form, &$form_state) {
     '#default_value' => $config->get('padMin'),
     '#states' => array(
       'visible' => array(
-        ':input[name="jplayer_showMin"]' => array('value' => 1),
+        ':input[name="showMin"]' => array('value' => 1),
       ),
     ),
   );
 
-  $form['timeformat']['mins']['jplayer_sepMin'] = array(
+  $form['timeformat']['mins']['sepMin'] = array(
     '#title' => t('Minutes seperator'),
     '#type' => 'textfield',
     '#maxlength' => 32,
     '#default_value' => $config->get('sepMin'),
     '#states' => array(
       'visible' => array(
-        ':input[name="jplayer_showMin"]' => array('value' => 1),
+        ':input[name="showMin"]' => array('value' => 1),
       ),
     ),
   );
@@ -108,7 +108,7 @@ function jplayer_settings_form($form, &$form_state) {
     '#collapsible' => TRUE,
   );
 
-  $form['timeformat']['secs']['jplayer_showSec'] = array(
+  $form['timeformat']['secs']['showSec'] = array(
     '#title' => t('Display seconds'),
     '#type' => 'select',
     '#options' => array(
@@ -118,7 +118,7 @@ function jplayer_settings_form($form, &$form_state) {
     '#default_value' => $config->get('showSec'),
   );
 
-  $form['timeformat']['secs']['jplayer_padSec'] = array(
+  $form['timeformat']['secs']['padSec'] = array(
     '#title' => t('Zero-pad the seconds'),
     '#type' => 'select',
     '#options' => array(
@@ -128,19 +128,19 @@ function jplayer_settings_form($form, &$form_state) {
     '#default_value' => $config->get('padSec'),
     '#states' => array(
       'visible' => array(
-        ':input[name="jplayer_showSec"]' => array('value' => 1),
+        ':input[name="showSec"]' => array('value' => 1),
       ),
     ),
   );
 
-  $form['timeformat']['secs']['jplayer_sepSec'] = array(
+  $form['timeformat']['secs']['sepSec'] = array(
     '#title' => t('Seconds seperator'),
     '#type' => 'textfield',
     '#maxlength' => 32,
     '#default_value' => $config->get('sepSec'),
     '#states' => array(
       'visible' => array(
-        ':input[name="jplayer_showSec"]' => array('value' => 1),
+        ':input[name="showSec"]' => array('value' => 1),
       ),
     ),
   );
