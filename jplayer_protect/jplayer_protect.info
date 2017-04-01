@@ -4,6 +4,5 @@ package = Media
 core = 7.x
 dependencies[] = jplayer
 
-files[] = jplayer_protect.install
-files[] = jplayer_protect.module
-
+; @todo Remove this after upgrade.
+hidden = true
